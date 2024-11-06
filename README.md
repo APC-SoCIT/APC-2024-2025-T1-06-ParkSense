@@ -1,3 +1,2 @@
-# Branch for testing and bug fixes
-
-This is where we fix all problems in coding/django
+# apc-msyadd1-template
+Template repository for APC SMSYADD1
