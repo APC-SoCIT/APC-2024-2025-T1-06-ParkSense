@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== REMIXICONS ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
+
+    <!--=============== CSS ===============-->
+    {% load static %}  <!-- Load the static template tag -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">  <!-- Update CSS link -->
+
+    <title>Login form - Parking Management System</title>
+</head>
+<body>
+    <div class="login">
+        <img src="{% static '/images/apc_building.png' %}" alt="image" class="login__bg">  <!-- Update image link -->
+
+        <form action="" class="login__form" method ="POST">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <div class="log__header">
+                <img src="{% static 'images/apc_logo.png' %}" class="logo">  <!-- Update logo link -->
+                <h1 class="login__title">Parking Management System</h1>
+            </div>
+            <hr class="break">
+            <div class="login__inputs">
+                <div class="login__box">
+                    <input type="username" placeholder="Username" required class="login__input" id ="username" name ="username">
+                    <i class="ri-user-fill"></i>
+                    <label for="username"></label>
+                </div>
+
+                <div class="login__box">
+                    <input type="password" placeholder="Password" required class="login__input" id="password", name="pass">
+                    <i class="ri-lock-2-fill"></i>
+                    <label for="password"></label>
+
+                </div>
+
+            <button type="submit" class="login__button">Login</button>
+
+            <div class="login__register">
+                Don't have an account? <a href="{% url 'signup' %}">Register</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+<!----------------
+
+user account:
+
+user = User.objects.get(username='jtlandicho')  
+user.set_password('123')   
+user.save()
+
+admin/
+
+super user:
+Username: JohnJorelLandicho1234
+Password: JohnJorelLandicho1234
+------------------>
