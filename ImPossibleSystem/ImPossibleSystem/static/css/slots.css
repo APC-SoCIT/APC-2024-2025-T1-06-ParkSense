@@ -1,0 +1,286 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: rgb(241, 240, 240);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    left: 0;
+    width: 81px;
+    background: #fff;
+    overflow: hidden;
+    transition: 2s;
+}
+
+nav:hover {
+    width: 260px;
+    transition: 1s;
+}
+
+.logo {
+    text-align: center;
+    display: flex;
+    margin: 10px 0 0 8px;
+}
+
+.logo img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.logo span {
+    font-weight: bold;
+    padding-left: 0px;
+    font-size: 18px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    margin: 0;
+}
+
+a {
+    position: relative;
+    width: 280px;
+    font-size: 14px;
+    color: rgb(85, 83, 83);
+    display: table;
+    padding: 10px;
+}
+
+nav .fas {
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.nav-item {
+    font-size: 16.5px;
+    margin-left: 24px;
+    position: absolute;
+    margin-top: 5px;
+}
+
+.nav-item2 {
+    font-size: 16.5px;
+    margin-left: 24px;
+    position: absolute;
+    margin-top: 12px;
+}
+
+.nav-item4 {
+    text-align: center;
+    font-size: 16.5px;
+    margin-left: 23px;
+    margin-top: 10px;
+}
+
+a:hover {
+    background: #eee;
+}
+
+a:hover i {
+    color: #E4A400;
+    transition: 0.5s;
+}
+
+.logout {
+    position: absolute;
+    bottom: 0;
+    font-size: 30px;
+    margin-left: 13.8px;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+/* Main Section */
+.main-content {
+    width: 100%; /* Ensure it takes up the space to the right of the nav */
+    padding: 0px;
+    flex-grow: 1; /* Ensures the main content takes all available space */
+}
+
+.ri-parking-box-line {
+    font-size: 30px;
+    margin-left: 13.8px;
+}
+
+.ri-pie-chart-box-line {
+    font-size: 30px;
+    margin-left: 13.8px;
+}
+
+.ri-settings-fill {
+    font-size: 30px;
+    margin-left: 13.8px;
+    bottom: 20px;
+}
+
+.settings {
+    position: absolute;
+    bottom: 70px;
+}
+
+.break {
+    border: none;
+    border-top: 5px solid rgb(235, 178, 55);
+    width: 100%;
+    margin: 10px 0;
+}
+
+.user-email {
+    margin-right: 0;
+}
+
+.header-info {
+    float: right;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-right: 30px;
+    font-size: 20px;
+}
+
+.date {
+    float: right;
+    margin-right: 7px;
+}
+
+.date1 {
+    float: right;
+    margin-right: 30px;
+}
+
+.time {
+    float: right;
+    margin-right: 30px;
+}
+
+.l {
+    float: right;
+}
+
+.linebelowlogo {
+    border: none;
+    border-top: 4px solid rgb(0, 0, 0);
+    width: 30%;
+    margin: 0 auto;
+}
+
+.main-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: auto;
+    box-sizing: border-box;
+    border-top: 4px solid #daa81f;
+}
+
+/* Ensure body content takes the remaining space */
+.main-content {
+    flex-grow: 1;
+}
+
+.parking-info {
+    margin: 20px;
+    font-size: 20px;
+}
+
+.parking-lot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.slot {
+    width: 100px;
+    height: 150px;
+    background-color: green;
+    position: relative;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.slot.occupied {
+    background-color: red;
+}
+
+.slot.occupied .car {
+    display: block;
+}
+
+.car {
+    position: fixed;
+    width: 110px;
+    height: 110px;
+    margin-top: 20px;
+}
+
+.car img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+h1{
+    margin-left:20px;    
+}
+.parking-lot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.parking-slot {
+    width: 100px;
+    height: 150px;
+    background-color: green;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 150px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.parking-slot.occupied {
+    background-color: red;
+}
