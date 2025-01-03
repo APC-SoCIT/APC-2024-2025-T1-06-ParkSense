@@ -1,12 +1,170 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/slots.css' %}" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+    <title>Home Page</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <ul class="nav-list">
+          <li>
+            <a href="{% url 'home' %}" class="logo">
+                <img src= "{% static 'images/apc_logo.png' %} " alt="APC Logo" >
+                <span class="nav-item4">ParkSense</span>
+            </a>
+        </li>
+        <br>
+        <hr class="linebelowlogo">
+        <br>
+        <li>
+            <a href="{% url 'slots' %}">
+                <i class="ri-parking-box-line"></i>
+                <span class="nav-item">Parking Slots</span>
+            </a>
+        </li>
+        {% if user.is_superuser %}
 
+        <li>
+            <a href="{% url 'analytics' %}">
+                <i class="ri-pie-chart-box-line"></i>
+                <span class="nav-item">Analytics</span>
+            </a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="#">
+                <i class="ri-settings-fill"></i>
+                <span class="nav-item">Settings</span>
+            </a>
+        </li>
+        <li> 
+            <a href="{% url 'logout' %}" class="logout">
+                <i class="ri-logout-box-line"></i>
+                <span class="nav-item2">Log out</span>
+            </a>
+        </li>
+        </ul>
+      </nav>
+      <div class="main-content">
+        <header class="main-header">
+          <div class="header-info">
+            {% if user.is_authenticated %}
+            <span class="user-email">{{ user.username }} / {{ user.email }}</span>
+            {% else %}
+            <span class="user-email">Guest</span>
+            {% endif %}
+        </div>
+        <hr class="break">
+        <div class="timeanddate">
+            <span class="date1" id="current-date1"></span>
+            <span class="l"> |&nbsp; </span>
+            <span class="date" id="current-date"></span>
+            <br>
+            <span class="time" id="current-time"></span>
+        </div>
+        </header>
+        <br>
+
+        <h1 id="greeting">Hello!</h1>
+        <p>This is the current status of parking slots.</p>
+        <div class="parking-info">
+          <h2>Available Slots: <span id="available-slots">8</span></h2>
+        </div>
+        <div class="parking-lot">
+          <div class="slot" data-id="1"></div>
+          <div class="slot" data-id="2"></div>
+          <div class="slot" data-id="3"></div>
+          <div class="slot" data-id="4"></div>
+          <div class="slot" data-id="5"></div>
+          <div class="slot" data-id="6"></div>
+          <div class="slot" data-id="7"></div>
+          <div class="slot" data-id="8"></div>
+        </div>
+
+        <footer class="main-footer">
+          <div class="footer-info">
+            <span>ParkSense Inc.</span>
+            <span>All Rights Reserved</span>
+          </div>
+        </footer>
+    </div>
+</div>
+
+<script>
+  function updateDateTime() {
+    const now = new Date();
+    const date = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const date1 = now.toLocaleDateString('en-US', { weekday: "long" });
+    const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+    document.getElementById('current-date').textContent = date;
+    document.getElementById('current-date1').textContent = date1;
+    document.getElementById('current-time').textContent = time;
+  }
+  
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  function updateGreeting() {
+    const greetingElement = document.getElementById('greeting');
+    const currentHour = new Date().getHours();
+
+    let greeting = "Hello!";
+    if (currentHour < 12) {
+        greeting = "Good Morning!";
+    } else if (currentHour < 18) {
+        greeting = "Good Afternoon!";
+    } else {
+        greeting = "Good Evening!";
+    }
+
+    greetingElement.textContent = greeting;
+  
+} 
+
+    
+
+// Call the function to set the initial greeting
+updateGreeting();
+
+// Optional: Update greeting in real-time (every minute)
+setInterval(updateGreeting, 60000);
+
+  // Parking Slots Logic
+  document.addEventListener("DOMContentLoaded", () => {
+    const slots = document.querySelectorAll(".slot");
+    const availableSlotsText = document.getElementById("available-slots");
+    let availableSlots = 8;
+
+    slots.forEach((slot) => {
+      slot.addEventListener("click", () => {
+        if (!slot.classList.contains("occupied")) {
+          slot.classList.add("occupied");
+          const car = document.createElement("div");
+          car.classList.add("car");
+
+          const img = document.createElement("img");
+          img.src = "{% static 'images/car.png' %}"; // Set the image source using the static tag
+          img.alt = "Car Image"; // Optional: Alt text for accessibility
+          car.appendChild(img); // Append the image to the car div
+
+          slot.appendChild(car);
+          availableSlots--;
+        } else {
+          slot.classList.remove("occupied");
+          slot.querySelector(".car").remove();
+          availableSlots++;
+        }
+        availableSlotsText.textContent = availableSlots;
+      });
+    });
+  });
+</script>
 </body>
 </html>
