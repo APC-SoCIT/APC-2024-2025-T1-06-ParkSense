@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!--=============== REMIXICONS ===============-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
+
+   <!--=============== CSS ===============-->
+   <link rel="stylesheet" href="register.css">
+
+   <title>Register Form - Parking Management System</title>
+
+   <script>
+      function validatePasswords(event) {
+         // Get password values
+         const password1 = document.getElementById("password1").value;
+         const password2 = document.getElementById("password2").value;
+
+         // Check if passwords match
+         if (password1 !== password2) {
+            // Show alert if passwords don't match
+            alert("Passwords do not match. Please re-enter.");
+            event.preventDefault(); // Prevent form submission
+         }
+      }
+   </script>
+</head>
+<body>
+   <div class="login">
+      <img src="apc_building.png" alt="image" class="login__bg">
+
+      <form action="" class="login__form" onsubmit="validatePasswords(event)">
+         <div class="log__header">
+            <img src="apc_logo.png" class="logo">
+            <h1 class="login__title">Parking Management System</h1>
+         </div>
+         <hr class="break">
+         <div class="login__inputs">
+            <div class="login__box">
+               <input type="text" placeholder="First Name" required class="login__input">
+            </div>
+
+            <div class="login__box">
+               <input type="text" placeholder="Last Name" required class="login__input">
+            </div>
+
+            <div class="login__box">
+               <input type="email" placeholder="Email" required class="login__input">
+               <i class="ri-mail-fill"></i>
+            </div>
+
+            <div class="login__box">
+               <input type="password" placeholder="Password" required class="login__input" id="password1">
+               <i class="ri-lock-2-fill"></i>
+            </div>
+
+            <div class="login__box">
+               <input type="password" placeholder="Re-Type Password" required class="login__input" id="password2">
+               <i class="ri-lock-2-fill"></i>
+            </div>
+         </div>
+         <button type="submit" class="login__button">Register</button>
+         <div class ="haveaccount">
+            <a href ="login.html">
+         </div>
+      </form>
+   </div>
+</body>
+</html>
