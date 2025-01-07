@@ -3,8 +3,8 @@
 #include <FirebaseESP8266.h>  // Include Firebase ESP8266 library
 #include <ESP8266WiFi.h>
 
-#define WIFI_SSID "HUAWEI-G9zC"
-#define WIFI_PASSWORD "Dekuko247"
+#define WIFI_SSID "WiFi Name"
+#define WIFI_PASSWORD "WiFi Password"
 
 // Replace with your Firebase credentials
 #define FIREBASE_HOST "https://ir-sensor-project-bfab0-default-rtdb.asia-southeast1.firebasedatabase.app/"
