@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/workspaces/ParkSense-ImPossible/IPParkSense"
+set -gx VIRTUAL_ENV "/workspaces/APC-2024-2025-T1-06-ParkSense/ParkSense-Finals/IPParkSense"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

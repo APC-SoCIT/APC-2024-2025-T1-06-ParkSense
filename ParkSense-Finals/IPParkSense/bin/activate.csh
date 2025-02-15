@@ -9,7 +9,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/workspaces/ParkSense-ImPossible/IPParkSense"
+setenv VIRTUAL_ENV "/workspaces/APC-2024-2025-T1-06-ParkSense/ParkSense-Finals/IPParkSense"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
