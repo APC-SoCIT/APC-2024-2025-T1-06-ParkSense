@@ -26,3 +26,33 @@ void setup() {
     pinMode(MOTORCYCLE_SENSORS[i][1], INPUT);
   }
 }
+Serial.println("ParkSense Prototype - Sensor Readings");
+  Serial.println("Format: [Slot Type] [Slot Number]: [Distance] cm - [Status]");
+}
+
+float getDistance(int trigPin, int echoPin) {
+  float total = 0;
+  
+  // Take multiple readings and average them
+  for(int i = 0; i < READINGS_COUNT; i++) {
+    // Clear trigger pin
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    
+    // Send 10μs pulse
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    
+    // Read echo pin (returns pulse duration in microseconds)
+    long duration = pulseIn(echoPin, HIGH);
+    
+    // Calculate distance in cm
+    float distance = duration * 0.034 / 2;
+    total += distance;
+    
+    delay(10);  // Short delay between readings
+  }
+  
+  return total / READINGS_COUNT;
+}
