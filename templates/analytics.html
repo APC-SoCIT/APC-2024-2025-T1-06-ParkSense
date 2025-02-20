@@ -11,3 +11,48 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>ParkSense Analytics</title>
 </head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class="logo-section">
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'images/apc_logo.png' %}" alt="APC Logo">
+                    <span class="brand-name">ParkSense</span>
+                </a>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <a href="{% url 'analytics' %}" class="active">
+                        <i class="ri-pie-chart-box-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'tools' %}">
+                        <i class="ri-tools-fill"></i>
+                        <span>Tools</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-section">
+                <div class="timeanddate">
+                    <span class="date" id="current-date"></span>
+                    <span>|</span>
+                    <span class="time" id="current-time"></span>
+                </div>
+                <div class="user-info">
+                    {% if user.is_authenticated %}
+                        <span>{{ user.username }}</span>
+                    {% else %}
+                        <span>Guest</span>
+                    {% endif %}
+                    <i class="ri-user-4-line"></i>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-btn">
+                    <i class="ri-logout-box-line"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
