@@ -56,3 +56,17 @@ float getDistance(int trigPin, int echoPin) {
   
   return total / READINGS_COUNT;
 }
+void checkSlots(const int sensors[][2], int numSlots, float threshold, const char* type) {
+  for(int i = 0; i < numSlots; i++) {
+    float distance = getDistance(sensors[i][0], sensors[i][1]);
+    bool isOccupied = distance < threshold && distance > 0;
+    
+    Serial.print(type);
+    Serial.print(" ");
+    Serial.print(i + 1);
+    Serial.print(": ");
+    Serial.print(distance);
+    Serial.print(" cm - ");
+    Serial.println(isOccupied ? "Occupied" : "Available");
+  }
+}
