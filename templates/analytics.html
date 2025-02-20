@@ -143,3 +143,109 @@
             </div>
         </div>
     </div>
+    <script>
+        // Update date and time
+      function updateDateTime() {
+      const now = new Date();
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', dateOptions);
+      document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US');
+      }
+      // Update every second
+      setInterval(updateDateTime, 1000);
+      
+      // Call once to initialize
+      updateDateTime();
+        // Chart configurations
+        const occupancyData = {{ occupancy_data|safe }};
+        const vehicleData = {{ vehicle_data|safe }};
+        const utilizationData = {{ utilization_data|safe }};
+
+        // Occupancy Trend Chart
+        new Chart(document.getElementById('occupancyTrendChart'), {
+            type: 'line',
+            data: {
+                labels: occupancyData.labels,
+                datasets: [{
+                    label: 'Occupancy Rate',
+                    data: occupancyData.values,
+                    borderColor: '#3498db',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Vehicle Distribution Chart
+        new Chart(document.getElementById('vehicleDistributionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: vehicleData.labels,
+                datasets: [{
+                    data: vehicleData.values,
+                    backgroundColor: ['#3498db', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Slot Utilization Chart
+        new Chart(document.getElementById('slotUtilizationChart'), {
+            type: 'bar',
+            data: {
+                labels: utilizationData.labels,
+                datasets: [{
+                    label: 'Utilization Rate',
+                    data: utilizationData.values,
+                    backgroundColor: utilizationData.colors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
