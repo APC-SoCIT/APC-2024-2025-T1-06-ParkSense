@@ -15,3 +15,14 @@ const int MOTORCYCLE_SENSORS[3][2] = {
 const float CAR_THRESHOLD = 100.0;        // Distance in cm for car detection
 const float MOTORCYCLE_THRESHOLD = 50.0;  // Distance in cm for motorcycle detection
 const int READINGS_COUNT = 3;             // Number of readings to average
+
+void setup() {
+  Serial.begin(9600); // Initialize serial communication
+  
+  for (int i = 0; i < 3; i++) {
+    pinMode(CAR_SENSORS[i][0], OUTPUT);
+    pinMode(CAR_SENSORS[i][1], INPUT);
+    pinMode(MOTORCYCLE_SENSORS[i][0], OUTPUT);
+    pinMode(MOTORCYCLE_SENSORS[i][1], INPUT);
+  }
+}
