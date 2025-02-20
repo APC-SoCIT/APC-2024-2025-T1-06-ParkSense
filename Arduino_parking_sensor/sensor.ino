@@ -70,3 +70,14 @@ void checkSlots(const int sensors[][2], int numSlots, float threshold, const cha
     Serial.println(isOccupied ? "Occupied" : "Available");
   }
 }
+void loop() {
+  Serial.println("\n--- Current Readings ---");
+  
+  // Check car slots
+  checkSlots(CAR_SENSORS, 3, CAR_THRESHOLD, "Car");
+  
+  // Check motorcycle slots
+  checkSlots(MOTORCYCLE_SENSORS, 3, MOTORCYCLE_THRESHOLD, "Motorcycle");
+  
+  delay(1000);  // Update every second
+}
