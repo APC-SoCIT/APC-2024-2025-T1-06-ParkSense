@@ -56,3 +56,37 @@
             </div>
         </div>
     </nav>
+
+    <div class="main-content">
+        <div class="analytics-content">
+            <!-- Overview Cards -->
+            <div class="analytics-overview">
+                <div class="overview-card total-slots">
+                    <i class="ri-parking-box-line"></i>
+                    <div class="overview-info">
+                        <h3>Total Slots</h3>
+                        <p>{{ total_slots }}</p>
+                    </div>
+                </div>
+                <div class="overview-card current-occupancy">
+                    <i class="ri-car-line"></i>
+                    <div class="overview-info">
+                        <h3>Current Occupancy</h3>
+                        <p>{{ occupancy_rate }}%</p>
+                    </div>
+                </div>
+                <div class="overview-card avg-duration">
+                    <i class="ri-time-line"></i>
+                    <div class="overview-info">
+                        <h3>Avg. Duration</h3>
+                        <p>{{ avg_duration }}</p>
+                    </div>
+                </div>
+                <div class="overview-card peak-time">
+                    <i class="ri-line-chart-line"></i>
+                    <div class="overview-info">
+                        <h3>Peak Hours</h3>
+                        <p>{{ peak_hours }}</p>
+                    </div>
+                </div>
+            </div>
