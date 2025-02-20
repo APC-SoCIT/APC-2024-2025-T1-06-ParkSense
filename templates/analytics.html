@@ -103,3 +103,43 @@
                     <h3><i class="ri-pie-chart-2-line"></i> Vehicle Distribution</h3>
                     <canvas id="vehicleDistributionChart"></canvas>
                 </div>
+                
+                <!-- Utilization by Slot -->
+                <div class="chart-card full-width">
+                    <h3><i class="ri-bar-chart-grouped-line"></i> Slot Utilization (Last 24 Hours)</h3>
+                    <canvas id="slotUtilizationChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Detailed Stats Table -->
+            <div class="stats-table-section">
+                <h3><i class="ri-table-line"></i> Detailed Statistics</h3>
+                <div class="stats-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Slot</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>24h Occupancy</th>
+                                <th>Avg Duration</th>
+                                <th>Total Uses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for slot in parking_slots %}
+                            <tr>
+                                <td>{{ slot.slot_number }}</td>
+                                <td>{{ slot.get_vehicle_type_display }}</td>
+                                <td class="status-{{ slot.status|lower }}">{{ slot.status|title }}</td>
+                                <td>{{ slot.real_time_utilization|floatformat:1 }}%</td>
+                                <td>{{ slot.formatted_duration }}</td>
+                                <td>{{ slot.total_occupancy_count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
