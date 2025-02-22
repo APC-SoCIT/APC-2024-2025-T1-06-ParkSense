@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    {% load time_filters %}
+    {% load custom_filters %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>ParkSense Analytics</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class="logo-section">
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'images/apc_logo.png' %}" alt="APC Logo">
+                    <span class="brand-name">ParkSense</span>
+                </a>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <a href="{% url 'analytics' %}" class="active">
+                        <i class="ri-pie-chart-box-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'tools' %}">
+                        <i class="ri-tools-fill"></i>
+                        <span>Tools</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-section">
+                <div class="timeanddate">
+                    <span class="date" id="current-date"></span>
+                    <span>|</span>
+                    <span class="time" id="current-time"></span>
+                </div>
+                <div class="user-info">
+                    {% if user.is_authenticated %}
+                        <span>{{ user.username }}</span>
+                    {% else %}
+                        <span>Guest</span>
+                    {% endif %}
+                    <i class="ri-user-4-line"></i>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-btn">
+                    <i class="ri-logout-box-line"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="analytics-content">
+            <!-- Overview Cards -->
+            <div class="analytics-overview">
+                <div class="overview-card total-slots">
+                    <i class="ri-parking-box-line"></i>
+                    <div class="overview-info">
+                        <h3>Total Slots</h3>
+                        <p>{{ total_slots }}</p>
+                    </div>
+                </div>
+                <div class="overview-card current-occupancy">
+                    <i class="ri-car-line"></i>
+                    <div class="overview-info">
+                        <h3>Current Occupancy</h3>
+                        <p>{{ occupancy_rate }}%</p>
+                    </div>
+                </div>
+                <div class="overview-card avg-duration">
+                    <i class="ri-time-line"></i>
+                    <div class="overview-info">
+                        <h3>Avg. Duration</h3>
+                        <p>{{ avg_duration }}</p>
+                    </div>
+                </div>
+                <div class="overview-card peak-time">
+                    <i class="ri-line-chart-line"></i>
+                    <div class="overview-info">
+                        <h3>Peak Hours</h3>
+                        <p>{{ peak_hours }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <!-- Occupancy Trend -->
+                <div class="chart-card">
+                    <h3><i class="ri-line-chart-line"></i> 24-Hour Occupancy Trend</h3>
+                    <canvas id="occupancyTrendChart"></canvas>
+                </div>
+
+                <!-- Vehicle Type Distribution -->
+                <div class="chart-card">
+                    <h3><i class="ri-pie-chart-2-line"></i> Vehicle Distribution</h3>
+                    <canvas id="vehicleDistributionChart"></canvas>
+                </div>
+                
+                <!-- Utilization by Slot -->
+                <div class="chart-card full-width">
+                    <h3><i class="ri-bar-chart-grouped-line"></i> Slot Utilization (Last 24 Hours)</h3>
+                    <canvas id="slotUtilizationChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Detailed Stats Table -->
+            <div class="stats-table-section">
+                <h3><i class="ri-table-line"></i> Detailed Statistics</h3>
+                <div class="stats-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Slot</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>24h Occupancy</th>
+                                <th>Avg Duration</th>
+                                <th>Total Uses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for slot in parking_slots %}
+                            <tr>
+                                <td>{{ slot.slot_number }}</td>
+                                <td>{{ slot.get_vehicle_type_display }}</td>
+                                <td class="status-{{ slot.status|lower }}">{{ slot.status|title }}</td>
+                                <td>{{ slot.real_time_utilization|floatformat:1 }}%</td>
+                                <td>{{ slot.formatted_duration }}</td>
+                                <td>{{ slot.total_occupancy_count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Update date and time
+      function updateDateTime() {
+      const now = new Date();
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', dateOptions);
+      document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US');
+      }
+      // Update every second
+      setInterval(updateDateTime, 1000);
+      
+      // Call once to initialize
+      updateDateTime();
+        // Chart configurations
+        const occupancyData = {{ occupancy_data|safe }};
+        const vehicleData = {{ vehicle_data|safe }};
+        const utilizationData = {{ utilization_data|safe }};
+
+        // Occupancy Trend Chart
+        new Chart(document.getElementById('occupancyTrendChart'), {
+            type: 'line',
+            data: {
+                labels: occupancyData.labels,
+                datasets: [{
+                    label: 'Occupancy Rate',
+                    data: occupancyData.values,
+                    borderColor: '#3498db',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Vehicle Distribution Chart
+        new Chart(document.getElementById('vehicleDistributionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: vehicleData.labels,
+                datasets: [{
+                    data: vehicleData.values,
+                    backgroundColor: ['#3498db', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Slot Utilization Chart
+        new Chart(document.getElementById('slotUtilizationChart'), {
+            type: 'bar',
+            data: {
+                labels: utilizationData.labels,
+                datasets: [{
+                    label: 'Utilization Rate',
+                    data: utilizationData.values,
+                    backgroundColor: utilizationData.colors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
