@@ -1,2 +1,2 @@
-# apc-msyadd1-template
-Template repository for APC SMSYADD1
+# Parksense-DjangoFinals
+Made by Team ImPossible
